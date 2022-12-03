@@ -12,6 +12,11 @@ type ElfToCaloriesDictionary = {
   [elf: string]: number;
 };
 
+/**
+ * Returns a Array<string> that imports necessary data 
+ *
+ * @returns {Array<string>}
+ */
 const getProvidedData = () => {
   try {
     const data = fs.readFileSync(
@@ -26,6 +31,12 @@ const getProvidedData = () => {
   }
 };
 
+/**
+ * Returns a ElfToCaloriesDictionary that contains the elf calories dictionary 
+ * [elfId: string]: number
+ * 
+ * @returns {ElfToCaloriesDictionary}
+ */
 const calculateElfCalories = () => {
   const elvesFoodCalories = getProvidedData();
   const elfToCaloriesDictionary: ElfToCaloriesDictionary = {};
@@ -44,6 +55,11 @@ const calculateElfCalories = () => {
   return elfToCaloriesDictionary;
 };
 
+/**
+ * Returns a void. Displays the desired final data in the console.
+ * 
+ * @returns {ElfToCaloriesDictionary}
+ */
 export const howManyCaloriesTheTopElvesCarrying = () => {
   const elfCaloriesDictionary = calculateElfCalories();
 
