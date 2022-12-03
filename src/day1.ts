@@ -37,7 +37,7 @@ const getProvidedData = () => {
  * 
  * @returns {ElfToCaloriesDictionary}
  */
-const calculateElfCalories = () => {
+const calculateElfCalories = (): ElfToCaloriesDictionary => {
   const elvesFoodCalories = getProvidedData();
   const elfToCaloriesDictionary: ElfToCaloriesDictionary = {};
   let currentElfIndex = 0;
@@ -58,9 +58,9 @@ const calculateElfCalories = () => {
 /**
  * Returns a void. Displays the desired final data in the console.
  * 
- * @returns {ElfToCaloriesDictionary}
+ * @returns {void}
  */
-export const howManyCaloriesTheTopElvesCarrying = () => {
+export const howManyCaloriesTheTopElvesCarrying = (): void => {
   const elfCaloriesDictionary = calculateElfCalories();
 
   const sortedCaloriesArray = Object.entries(elfCaloriesDictionary).sort(
