@@ -13,7 +13,7 @@ type ElfToCaloriesDictionary = {
 };
 
 /**
- * Returns a Array<string> that imports necessary data 
+ * Returns a Array<string> that imports necessary data
  *
  * @returns {Array<string>}
  */
@@ -33,9 +33,9 @@ const getProvidedData = (): Array<string> => {
 };
 
 /**
- * Returns a ElfToCaloriesDictionary that contains the elf calories dictionary 
+ * Returns a ElfToCaloriesDictionary that contains the elf calories dictionary
  * [elfId: string]: number
- * 
+ *
  * @returns {ElfToCaloriesDictionary}
  */
 const calculateElfCalories = (): ElfToCaloriesDictionary => {
@@ -57,16 +57,22 @@ const calculateElfCalories = (): ElfToCaloriesDictionary => {
 };
 
 /**
+ * Returns a [string, number][]. A helper function to sort object entries and convert into array.
+ *
+ * @returns {[string, number][]}
+ */
+const sortObjectEntries = (source: {
+  [key: string]: number;
+}): [string, number][] => Object.entries(source).sort(([, a], [, b]) => b - a);
+
+/**
  * Returns a void. Displays the desired final data in the console.
- * 
+ *
  * @returns {void}
  */
 export const howManyCaloriesTheTopElvesCarrying = (): void => {
   const elfCaloriesDictionary = calculateElfCalories();
-
-  const sortedCaloriesArray = Object.entries(elfCaloriesDictionary).sort(
-    ([, a], [, b]) => b - a,
-  );
+  const sortedCaloriesArray = sortObjectEntries(elfCaloriesDictionary);
 
   console.log(
     'How many calories the top Elf carrying?',
