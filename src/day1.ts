@@ -17,7 +17,7 @@ type ElfToCaloriesDictionary = {
  *
  * @returns {Array<string>}
  */
-const getProvidedData = () => {
+const getProvidedData = (): Array<string> => {
   try {
     const data = fs.readFileSync(
       path.resolve(__dirname, './src/day1-input.txt'),
@@ -28,6 +28,7 @@ const getProvidedData = () => {
     return arr;
   } catch (e) {
     console.log('Error:', e.stack);
+    return [];
   }
 };
 
