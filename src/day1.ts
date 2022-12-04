@@ -2,34 +2,12 @@
  * Day 1 - Calorie Counting
  */
 
-import fs from 'fs';
-import path from 'path';
-const __dirname = path.resolve();
+import { getInputData } from './utils.js';
 
 const DELIMITER = '';
 
 type ElfToCaloriesDictionary = {
   [elf: string]: number;
-};
-
-/**
- * Returns a Array<string> that imports necessary data
- *
- * @returns {Array<string>}
- */
-const getProvidedData = (): Array<string> => {
-  try {
-    const data = fs.readFileSync(
-      path.resolve(__dirname, './src/day1-input.txt'),
-      'utf8',
-    );
-    const arr = data.split(/\r?\n/);
-
-    return arr;
-  } catch (e) {
-    console.log('Error:', e.stack);
-    return [];
-  }
 };
 
 /**
@@ -39,7 +17,7 @@ const getProvidedData = (): Array<string> => {
  * @returns {ElfToCaloriesDictionary}
  */
 const calculateElfCalories = (): ElfToCaloriesDictionary => {
-  const elvesFoodCalories = getProvidedData();
+  const elvesFoodCalories = getInputData('./src/day1-input.txt');
   const elfToCaloriesDictionary: ElfToCaloriesDictionary = {};
   let currentElfIndex = 0;
   let currentElfCalories = 0;
