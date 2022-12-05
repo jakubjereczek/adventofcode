@@ -18,23 +18,28 @@ const getBorders = (assignments: string[][]): string[] => {
 }
 
 const checkFullyContains = (assignments: string[][]): boolean => {
-  const [A, B, C, D] = getBorders(assignments);
-  if ((+A >= +C && +B <= +D) || (+C >= +A && +D <= +B)) {
+  const [X1, Y1, X2, Y2] = getBorders(assignments);
+  if ((+X1 >= +X2 && +Y1 <= +Y2) || (+X2 >= +X1 && +Y2 <= +Y1)) {
     return true;
   }
   return false;
 };
 
 const checkOverlaps = (assignments: string[][]): boolean => {
-  const [A, B, C, D] = getBorders(assignments);
+  const [X1, Y1, X2, Y2] = getBorders(assignments);
 
-  for (let i = +A; i <= +B; i++) {
-    for (let j = +C; j <= +D; j++) {
-     if (i === j) {
-      return true;
-     }
-    }
+  // for (let i = +X1; i <= +Y1; i++) {
+  //   for (let j = +X2; j <= +Y2; j++) {
+  //    if (i === j) {
+  //     return true;
+  //    }
+  //   }
+  // }
+
+  if (Math.max(+X1, +X2) <= Math.min(+Y1, +Y2)) {
+    return true;
   }
+  
   return false;
 };
 
