@@ -2,6 +2,7 @@ import { howManyCaloriesTheTopElvesCarrying } from "./day1.js";
 import { getRockScissorsPaperPoints } from "./day2.js";
 import { getRucksackItemsSumPriorities } from "./day3.js";
 import { calculateAssignmentPairs } from "./day4.js";
+import SupplyStacks from "./day5.js";
 
 /**
  * Day 1 - Calorie Counting - https://adventofcode.com/2022/day/1
@@ -23,3 +24,7 @@ getRucksackItemsSumPriorities();
  */
 calculateAssignmentPairs();
 
+/**
+ * Day 5 - Supply stacks - https://adventofcode.com/2022/day/5
+ */
+new SupplyStacks();
