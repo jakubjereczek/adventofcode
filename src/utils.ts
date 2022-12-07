@@ -13,3 +13,7 @@ export const getInputData = <TItem>(source: string): TItem[] => {
     return [];
   }
 };
+
+export const cloneArr = <T>(arr: T[]): T[] => {
+  return JSON.parse(JSON.stringify(arr));
+};

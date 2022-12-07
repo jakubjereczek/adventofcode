@@ -2,7 +2,7 @@
  * Day 5 - Supply stacks - https://adventofcode.com/2022/day/5
  */
 
-import { getInputData } from './utils.js';
+import { cloneArr, getInputData } from './utils.js';
 
 interface Step {
   move: string;
@@ -18,7 +18,57 @@ enum State {
 const SEPARATING_CHAR = '';
 const EMPTY_CHAR = '0';
 
+abstract class Crane {
+  name: string;
+  steps: Step[];
+  supplies: string[][];
+
+  constructor(name: string, steps: Step[], supplies: string[][]) {
+    this.name = name;
+    this.steps = cloneArr(steps);
+    this.supplies = cloneArr(supplies);
+  }
+
+  abstract rearrangement: () => void;
+
+  getSuppliesChars = (): string => {
+    let chars = '';
+    this.supplies.forEach((arr) => {
+      chars += arr[0];
+    });
+    return chars;
+  };
+}
+
+class CraneMover9000 extends Crane {
+  rearrangement = (): void => {
+    this.steps.forEach((step) => {
+      for (let i = 0; i < Number(step.move); i++) {
+        this.supplies[Number(step.to) - 1].unshift(
+          this.supplies[Number(step.from) - 1][0],
+        );
+        this.supplies[Number(step.from) - 1].shift();
+      }
+    });
+  };
+}
+
+class CraneMover9001 extends Crane {
+  rearrangement = (): void => {
+    this.steps.forEach((step) => {
+      this.supplies[Number(step.to) - 1] = [
+        ...this.supplies[Number(step.from) - 1].slice(0, Number(step.move)),
+        ...this.supplies[Number(step.to) - 1],
+      ];
+      this.supplies[Number(step.from) - 1] = this.supplies[
+        Number(step.from) - 1
+      ].slice(Number(step.move));
+    });
+  };
+}
+
 class SupplyStacks {
+  cranes: Crane[] = [];
   supplies: string[][] = [];
   steps: Step[] = [];
   state: State = State.INIT;
@@ -29,8 +79,15 @@ class SupplyStacks {
 
   private getCrateSymbolsFromTopOfEachStack(): void {
     this.getMetadata();
-    this.rearrangement('CreateMover9000');
-    this.rearrangement('CreateMover9001');
+    this.cranes.push(new CraneMover9000('9000', this.steps, this.supplies));
+    this.cranes.push(new CraneMover9001('9001', this.steps, this.supplies));
+    this.cranes.forEach((crane) => {
+      crane.rearrangement();
+      console.log(
+        `After the rearrangement procedure completes with ${crane.name}, what crate ends up on top of each stack?`,
+        crane.getSuppliesChars(),
+      );
+    });
   }
 
   private getMetadata = (): void => {
@@ -75,7 +132,6 @@ class SupplyStacks {
       }
     }
     this.supplies = verticalRows;
-    console.log(this.supplies);
   };
 
   private processStepsMetadata = (arr: string[]): void => {
@@ -90,42 +146,6 @@ class SupplyStacks {
       });
     }
     this.steps = steps;
-  };
-
-  private rearrangement = (
-    crane: 'CreateMover9000' | 'CreateMover9001',
-  ): void => {
-    const supplies = JSON.parse(JSON.stringify(this.supplies)); // a way to deep clone
-    this.steps.forEach((step) => {
-      if (crane === 'CreateMover9000') {
-        for (let i = 0; i < Number(step.move); i++) {
-          supplies[Number(step.to) - 1].unshift(
-            supplies[Number(step.from) - 1][0],
-          );
-          supplies[Number(step.from) - 1].shift();
-        }
-      }
-      if (crane === 'CreateMover9001') {
-        supplies[Number(step.to) - 1] = [
-          ...supplies[Number(step.from) -1].slice(0, Number(step.move)),
-          ... supplies[Number(step.to) - 1] 
-        ]
-        supplies[Number(step.from) - 1] = supplies[Number(step.from) - 1].slice(Number(step.move))
-      }
-    });
-
-    console.log(
-      `After the rearrangement procedure completes with ${crane}, what crate ends up on top of each stack?`,
-      this.getSuppliesChars(supplies),
-    );
-  };
-
-  private getSuppliesChars = (supplies: string[][]): string => {
-    let chars = '';
-    supplies.forEach((arr) => {
-      chars += arr[0];
-    });
-    return chars;
   };
 }
 
