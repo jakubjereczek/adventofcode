@@ -17,3 +17,5 @@ export const getInputData = <TItem>(source: string): TItem[] => {
 export const cloneArr = <T>(arr: T[]): T[] => {
   return JSON.parse(JSON.stringify(arr));
 };
+
+export const toNum = (number: string) => Number(number);

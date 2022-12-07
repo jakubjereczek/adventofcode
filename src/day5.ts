@@ -2,7 +2,7 @@
  * Day 5 - Supply stacks - https://adventofcode.com/2022/day/5
  */
 
-import { cloneArr, getInputData } from './utils.js';
+import { cloneArr, getInputData, toNum } from './utils.js';
 
 interface Step {
   move: string;
@@ -11,7 +11,6 @@ interface Step {
 }
 
 enum State {
-  INIT = -1,
   LOADING_CRATES = 0,
   LOADING_STEPS = 1,
 }
@@ -28,26 +27,20 @@ abstract class Crane {
     this.steps = cloneArr(steps);
     this.supplies = cloneArr(supplies);
   }
-
   abstract rearrangement: () => void;
 
-  getSuppliesChars = (): string => {
-    let chars = '';
-    this.supplies.forEach((arr) => {
-      chars += arr[0];
-    });
-    return chars;
-  };
+  getSuppliesChars = (): string =>
+    this.supplies.map((supply) => supply[0]).join('');
 }
 
 class CraneMover9000 extends Crane {
   rearrangement = (): void => {
     this.steps.forEach((step) => {
-      for (let i = 0; i < Number(step.move); i++) {
-        this.supplies[Number(step.to) - 1].unshift(
-          this.supplies[Number(step.from) - 1][0],
+      for (let i = 0; i < toNum(step.move); i++) {
+        this.supplies[toNum(step.to) - 1].unshift(
+          this.supplies[toNum(step.from) - 1][0],
         );
-        this.supplies[Number(step.from) - 1].shift();
+        this.supplies[toNum(step.from) - 1].shift();
       }
     });
   };
@@ -56,13 +49,13 @@ class CraneMover9000 extends Crane {
 class CraneMover9001 extends Crane {
   rearrangement = (): void => {
     this.steps.forEach((step) => {
-      this.supplies[Number(step.to) - 1] = [
-        ...this.supplies[Number(step.from) - 1].slice(0, Number(step.move)),
-        ...this.supplies[Number(step.to) - 1],
+      this.supplies[toNum(step.to) - 1] = [
+        ...this.supplies[toNum(step.from) - 1].slice(0, toNum(step.move)),
+        ...this.supplies[toNum(step.to) - 1],
       ];
-      this.supplies[Number(step.from) - 1] = this.supplies[
-        Number(step.from) - 1
-      ].slice(Number(step.move));
+      this.supplies[toNum(step.from) - 1] = this.supplies[
+        toNum(step.from) - 1
+      ].slice(toNum(step.move));
     });
   };
 }
@@ -71,7 +64,7 @@ class SupplyStacks {
   cranes: Crane[] = [];
   supplies: string[][] = [];
   steps: Step[] = [];
-  state: State = State.INIT;
+  state: State = State.LOADING_CRATES;
 
   constructor() {
     this.getCrateSymbolsFromTopOfEachStack();
@@ -95,9 +88,6 @@ class SupplyStacks {
     const rows = getInputData<string>('./src/day5-input.txt');
 
     for (let i = 0; i < rows.length; i++) {
-      if (i === 0) {
-        this.state = State.LOADING_CRATES;
-      }
       if (rows[i] === SEPARATING_CHAR) {
         this.state = State.LOADING_STEPS;
         continue;
@@ -137,8 +127,7 @@ class SupplyStacks {
   private processStepsMetadata = (arr: string[]): void => {
     const steps: Step[] = [];
     for (let i = 0; i < arr.length; i++) {
-      const regex = /\b([01]?[0-9][0-9]?)/g;
-      const [move, from, to] = arr[i].match(regex);
+      const [move, from, to] = arr[i].match(/\b([01]?[0-9][0-9]?)/g);
       steps.push({
         move,
         from,
