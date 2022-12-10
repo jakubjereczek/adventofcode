@@ -3,6 +3,7 @@ import { getRockScissorsPaperPoints } from "./day2.js";
 import { getRucksackItemsSumPriorities } from "./day3.js";
 import { calculateAssignmentPairs } from "./day4.js";
 import SupplyStacks from "./day5.js";
+import { processSignals } from "./day6.js";
 
 /**
  * Day 1 - Calorie Counting - https://adventofcode.com/2022/day/1
@@ -28,3 +29,8 @@ calculateAssignmentPairs();
  * Day 5 - Supply stacks - https://adventofcode.com/2022/day/5
  */
 new SupplyStacks();
+
+/**
+ * Day 6 - Tuning trouble - https://adventofcode.com/2022/day/5
+ */
+processSignals();
