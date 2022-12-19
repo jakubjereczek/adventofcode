@@ -4,6 +4,7 @@ import { getRucksackItemsSumPriorities } from "./day3.js";
 import { calculateAssignmentPairs } from "./day4.js";
 import SupplyStacks from "./day5.js";
 import { processSignals } from "./day6.js";
+import { calcDirectoriesTotalSize } from "./day7.js";
 
 /**
  * Day 1 - Calorie Counting - https://adventofcode.com/2022/day/1
@@ -34,3 +35,8 @@ new SupplyStacks();
  * Day 6 - Tuning trouble - https://adventofcode.com/2022/day/5
  */
 processSignals();
+
+/**
+ * Day 7 - No space left on device
+ */
+calcDirectoriesTotalSize();

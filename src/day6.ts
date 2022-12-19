@@ -1,5 +1,5 @@
 /**
- * Day 6 - Tuning trouble - https://adventofcode.com/2022/day/5
+ * Day 6 - Tuning trouble - https://adventofcode.com/2022/day/6
  */
 import { getInputData } from './utils.js';
 
